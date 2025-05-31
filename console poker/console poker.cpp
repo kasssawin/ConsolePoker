@@ -1,17 +1,42 @@
 #include "libs.h"
 
 
-
+unsigned int PLAYER_COUNT = 0;
 
 int main()
 {
 	Dealer dealer;
-	Player PlayerOne("kassawin");
-	Player PlayerTwo("Bot 1");
+	EntList entList;
+	std::cout << "Whats your name?: \n";
+	std::string name;
+	std::cin >> name;
+	entList.AddPlayer(name);
+
+	std::cout << "How much players would you like to have?: ";
+	std::cin >> PLAYER_COUNT;
+	for (int i = 1; i <= PLAYER_COUNT; i++)
+	{
+		entList.AddPlayer("Bot");
+	}
+
 	Deck deck;
 	deck.Shuffle();
+	dealer.GetDealerHand(&deck);
+	dealer.PrintDealerHand();
+
+	for (Player* p : entList.GetVector())
+	{
+		p->GetPlayerCards(deck);
+	}
+	for(Player* p : entList.GetVector())
+	{
+		p->PrintPlayerCards();
+		p->GetPlayerBestHand(dealer.GETDEALERCARDS());
+	}
+	
 	//deck.SETDECK_DEBUG();
 
+	/*
 	PlayerOne.GetPlayerCards(&deck);
 	PlayerOne.PrintPlayerCards();
 	std::cout << std::endl;
@@ -26,6 +51,7 @@ int main()
 	PlayerOne.PrintPlayerBestHand();
 	PlayerTwo.GetPlayerBestHand(dealer.GETDEALERCARDS());
 	PlayerTwo.PrintPlayerBestHand();
+	*/
 	while (true)
 	{	
 		std::cin.get();

@@ -40,6 +40,11 @@ void Deck::PrintDeck()
 	}
 }
 
+std::vector<Card> Deck::GetDeckVec()
+{
+	return deck;
+}
+
 void Deck::SETDECK_DEBUG()
 {
 /*	int x = 2;

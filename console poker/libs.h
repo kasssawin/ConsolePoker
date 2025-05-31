@@ -33,6 +33,18 @@ struct Card
 	bool visilible;
 };
 
+class Deck
+{
+private:
+	std::vector<Card> deck;
+public:
+	void Shuffle();
+	std::vector<Card> GetHand(int numOfCards);
+	void PrintDeck();
+	std::vector<Card> GetDeckVec();
+
+	void SETDECK_DEBUG();
+};
 
 class Player
 {
@@ -40,36 +52,19 @@ private:
 	std::vector<Card> Cards{};    //first is rank second is color
 	Hand playerHand{};
 	std::string name{};
+	int id;
 public:
 	Player(std::string nickname) { name = nickname; }
-	void GetPlayerCards(Deck* deck)
-	{
-		Cards = deck->GetHand(2);
-	}
+	
+	void GetPlayerCards(Deck& deck);
 
-	void GetPlayerBestHand(std::vector<Card> tableCards)
-	{
-		playerHand = CheckPokerHand(tableCards, Cards, *this);
-	}
+	void GetPlayerBestHand(std::vector<Card> tableCards);
 
-	void PrintPlayerCards()
-	{
-		std::cout << name << " cards: " << std::endl;
-		for (Card& hand : Cards)
-		{
-			std::cout << RankToText(hand.rank) << " of " << ColorToText(hand.color) << "   ";
-		}
-	}
+	void PrintPlayerCards();
 
-	void PrintPlayerBestHand()
-	{
-		std::cout << name << " got " << PokerHandToText(playerHand) << "!!!" << std::endl;
-	}
+	void PrintPlayerBestHand();
 
-	std::vector<Card> GETPLAYERCARDS()
-	{
-		return Cards;
-	}
+	std::vector<Card> GETPLAYERCARDS();
 
 };
 
@@ -90,17 +85,6 @@ bool CheckFlush(std::vector<Card> cards);
 
 void PrintRanksPairing(std::vector<RankBasedHand>& hand);
 
-class Deck
-{
-private:
-	std::vector<Card> deck;
-public:
-	void Shuffle();
-	std::vector<Card> GetHand(int numOfCards);
-	void PrintDeck();
-
-	void SETDECK_DEBUG();
-};
 
 class Dealer
 {
@@ -136,4 +120,24 @@ public:
 	}
 };
 
+class EntList
+{
+private:
+	std::vector<Player*> player;
+
+public:
+	void AddPlayer(std::string nickname)
+	{
+		Player* p = new Player(nickname);
+		player.push_back(p);
+	}
+	Player* GetPlayer(int id)
+	{
+		return player[id];
+	}
+	std::vector<Player*> GetVector()
+	{
+		return player;
+	}
+};
 
